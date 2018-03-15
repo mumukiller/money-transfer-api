@@ -2,9 +2,8 @@ package com.mumukiller.transfer.controller;
 
 import com.mumukiller.transfer.dto.AccountDto;
 import com.mumukiller.transfer.service.AccountService;
-import com.mumukiller.transfer.service.AccountServiceImpl;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,13 +15,13 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path(UriVariable.ACCOUNTS_PATH)
-@Singleton
 public class AccountController {
 
   private final AccountService accountService;
 
-  public AccountController() {
-    this.accountService = new AccountServiceImpl();
+  @Inject
+  public AccountController(final AccountService accountService) {
+    this.accountService = accountService;
   }
 
   @GET

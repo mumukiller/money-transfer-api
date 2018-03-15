@@ -4,6 +4,7 @@ import com.mumukiller.transfer.dto.TransferDto;
 import com.mumukiller.transfer.service.AccountService;
 import com.mumukiller.transfer.service.AccountServiceImpl;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,8 +16,9 @@ public class TransferController {
 
   private final AccountService accountService;
 
-  public TransferController() {
-    this.accountService = new AccountServiceImpl();
+  @Inject
+  public TransferController(final AccountService accountService) {
+    this.accountService = accountService;
   }
 
   @POST

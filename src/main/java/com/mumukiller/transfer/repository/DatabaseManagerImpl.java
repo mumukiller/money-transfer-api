@@ -13,6 +13,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.ManagedBean;
+import javax.annotation.Resource;
 import javax.inject.Provider;
 import javax.sql.DataSource;
 import java.io.File;
@@ -22,6 +24,8 @@ import java.util.Properties;
 import java.util.function.Consumer;
 
 @Slf4j
+@Resource
+@ManagedBean
 public class DatabaseManagerImpl implements DatabaseManager {
 
   private final HikariDataSource dataSource;

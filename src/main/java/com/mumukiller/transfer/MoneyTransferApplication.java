@@ -1,6 +1,7 @@
 package com.mumukiller.transfer;
 
 
+import com.mumukiller.transfer.configuration.ApplicationBinder;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -23,6 +24,8 @@ public class MoneyTransferApplication extends ResourceConfig {
 
     property(ServerProperties.TRACING, "ALL");
     property(ServerProperties.TRACING_THRESHOLD, "VERBOSE");
+
+    register(new ApplicationBinder());
   }
 
   public static void main(String[] args) throws Exception {

@@ -7,8 +7,12 @@ import com.mumukiller.transfer.exception.ErrorCode;
 import com.mumukiller.transfer.repository.AccountRepository;
 import com.mumukiller.transfer.repository.AccountRepositoryImpl;
 import com.mumukiller.transfer.validation.TransferValidator;
+import com.mumukiller.transfer.validation.TransferValidatorImpl;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.ManagedBean;
+import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -16,14 +20,18 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
+@Resource
+@ManagedBean
 public class AccountServiceImpl implements AccountService {
 
   private final AccountRepository accountRepository;
   private final TransferValidator transferValidator;
 
-  public AccountServiceImpl() {
-    this.accountRepository = new AccountRepositoryImpl();
-    this.transferValidator = new TransferValidator();
+  @Inject
+  public AccountServiceImpl(final AccountRepository accountRepository,
+                            final TransferValidator transferValidator) {
+    this.accountRepository = accountRepository;
+    this.transferValidator = transferValidator;
   }
 
   @Override

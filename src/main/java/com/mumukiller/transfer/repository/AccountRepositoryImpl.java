@@ -12,6 +12,9 @@ import com.querydsl.sql.dml.SQLUpdateClause;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.ManagedBean;
+import javax.annotation.Resource;
+import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +26,16 @@ import static java.util.stream.Collectors.toMap;
 
 @Slf4j
 @Getter
+@Resource
+@ManagedBean
 public class AccountRepositoryImpl implements AccountRepository {
+
 
   private final DatabaseManager databaseManager;
 
-  public AccountRepositoryImpl() {
-    this.databaseManager = new DatabaseManagerImpl();
+  @Inject
+  public AccountRepositoryImpl(final DatabaseManager databaseManager) {
+    this.databaseManager = databaseManager;
   }
 
   @Override
