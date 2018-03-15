@@ -65,11 +65,25 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+
+ext {
+    jacocoExclusions = ['com/mumukiller/transfer/entity/**',
+                        'com/mumukiller/transfer/dto/**',
+                        'com/mumukiller/transfer/exception/dto/**']
+}
+
+test.finalizedBy 'jacocoTestReport'
+
 jacocoTestReport {
     reports {
         xml.enabled false
         csv.enabled false
         html.destination "${buildDir}/reports/coverage"
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExclusions)
+        })
     }
 }
 
@@ -77,9 +91,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             element = 'BUNDLE'
-            excludes = ['com/mumukiller/transfer/entity/**',
-                        'com/mumukiller/transfer/dto/**',
-                        'com/mumukiller/transfer/exception/dto/**'].stream().map{it.replace('/','.')}.collect()
+            excludes = jacocoExclusions.stream().map{it.replace('/','.')}.collect()
             limit {
                 counter = 'INSTRUCTION'
                 minimum = 0.5
