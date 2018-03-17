@@ -10,8 +10,6 @@ import com.mumukiller.transfer.exception.dto.ErrorResponseDto;
 import com.mumukiller.transfer.service.TransferOperationHolder;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
@@ -51,7 +49,7 @@ public class TransfersControllerTest extends BaseControllerTest {
 
     //update source during transaction using validation call
     doAnswer(invocation -> {
-      validateTableLock(accountSource);
+      assertTableLock(accountSource);
       return null;
     }).when(APPLICATION_BINDER.getMockTransferValidator()).validate(any(TransferOperationHolder.class));
 
@@ -70,7 +68,7 @@ public class TransfersControllerTest extends BaseControllerTest {
     assertEquals(HttpStatus.OK_200, response.getStatus());
   }
 
-  private void validateTableLock(final AccountDto accountSource){
+  private void assertTableLock(final AccountDto accountSource){
     final Response response = target(UriVariable.ACCOUNTS_PATH + "/" + accountSource.getId())
             .request()
             .post(Entity.entity(AccountDto.builder()
