@@ -7,8 +7,6 @@ import com.mumukiller.transfer.dto.TransferDto;
 import com.mumukiller.transfer.exception.ErrorCode;
 import com.mumukiller.transfer.exception.dto.ErrorResponseDto;
 import org.eclipse.jetty.http.HttpStatus;
-import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
 
 import javax.ws.rs.client.Entity;
@@ -23,15 +21,13 @@ import java.util.stream.IntStream;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
-public class AccountsControllerTest extends JerseyTest {
+public class AccountsControllerTest extends BaseControllerTest {
 
   public final static GenericType<List<AccountDto>> ACCOUNTS_LIST_GENERIC_TYPE = new GenericType<List<AccountDto>>() {
   };
 
   @Override
-  protected Application configure() {
-    set(TestProperties.LOG_TRAFFIC, true);
-    set(TestProperties.DUMP_ENTITY, true);
+  public Application buildApp() {
     return new MoneyTransferApplication();
   }
 
@@ -171,28 +167,6 @@ public class AccountsControllerTest extends JerseyTest {
     assertEquals(accountDestinationUpdated.getUsername(), accountDestination.getUsername());
     assertEquals(accountDestinationUpdated.getCurrency(), accountDestination.getCurrency());
     assertEquals(accountDestinationUpdated.getValue(), accountDestination.getValue().add(value));
-  }
-
-  private AccountDto get(final String id) {
-    final Response searchResponse = target(UriVariable.ACCOUNTS_PATH + "/" + id)
-            .request()
-            .get();
-
-    assertEquals(searchResponse.getStatus(), HttpStatus.OK_200);
-
-    return searchResponse
-            .readEntity(AccountDto.class);
-  }
-
-  private AccountDto save(final AccountDto account) {
-    final Response response = target(UriVariable.ACCOUNTS_PATH)
-            .request()
-            .post(Entity.entity(account, MediaType.APPLICATION_JSON));
-
-    assertEquals(response.getStatus(), HttpStatus.CREATED_201);
-
-    return response
-            .readEntity(AccountDto.class);
   }
 
   @Test

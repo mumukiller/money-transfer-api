@@ -5,6 +5,7 @@ import com.mumukiller.transfer.configuration.ApplicationBinder;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
@@ -17,15 +18,20 @@ import java.util.logging.Level;
 public class MoneyTransferApplication extends ResourceConfig {
 
   public MoneyTransferApplication() {
+    this(new ApplicationBinder());
+  }
+
+  public MoneyTransferApplication(final AbstractBinder applicationBinder) {
     packages("com.mumukiller.transfer");
 
-    property(LoggingFeature.LOGGING_FEATURE_VERBOSITY, LoggingFeature.Verbosity.PAYLOAD_ANY);
-    property(LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL, Level.FINEST.getName());
+    register(LoggingFeature.class);
+    property(LoggingFeature.LOGGING_FEATURE_VERBOSITY_CLIENT, LoggingFeature.Verbosity.PAYLOAD_ANY);
+    property(LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL_CLIENT, "WARNING");
 
     property(ServerProperties.TRACING, "ALL");
     property(ServerProperties.TRACING_THRESHOLD, "VERBOSE");
 
-    register(new ApplicationBinder());
+    register(applicationBinder);
   }
 
   public static void main(String[] args) throws Exception {
