@@ -1,1 +1,1 @@
-create table IF NOT EXISTS public.account(id varchar(100), username varchar(10), value decimal, currency varchar(10));
+create table IF NOT EXISTS public.account(id varchar(100) PRIMARY KEY, username varchar(10), value decimal, currency varchar(10));
