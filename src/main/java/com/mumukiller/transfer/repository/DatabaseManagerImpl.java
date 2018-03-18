@@ -6,7 +6,6 @@ import com.querydsl.sql.Configuration;
 import com.querydsl.sql.H2Templates;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.SQLTemplates;
-import com.querydsl.sql.codegen.MetaDataExporter;
 import com.querydsl.sql.types.DateTimeType;
 import com.querydsl.sql.types.LocalDateType;
 import com.zaxxer.hikari.HikariDataSource;
@@ -16,10 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Provider;
-import javax.sql.DataSource;
-import java.io.File;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Properties;
 import java.util.function.Consumer;
 
@@ -43,22 +39,6 @@ public class DatabaseManagerImpl implements DatabaseManager {
     this.dataSource.setPassword(properties.getProperty("jdbc.password"));
 
     this.queryFactory = new SQLQueryFactory(querydslConfiguration(), this.dataSource);
-
-    //exportMetadata(this.dataSource);
-  }
-
-  private void exportMetadata(final DataSource dataSource) {
-    try {
-      final Connection conn = dataSource.getConnection();
-      final MetaDataExporter exporter = new MetaDataExporter();
-      exporter.setPackageName("com.mumukiller.transfer.entity");
-      exporter.setTargetFolder(new File("src/main/java"));
-      //exporter.setTargetFolder(new File("build/generated-sources/apt"));
-      //exporter.setBeanSerializer(new BeanSerializer());
-      exporter.export(conn.getMetaData());
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
   }
 
   @Override

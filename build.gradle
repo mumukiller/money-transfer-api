@@ -17,7 +17,6 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: "jacoco"
-//apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -105,10 +104,5 @@ jacocoTestCoverageVerification {
     }
 }
 check.dependsOn jacocoTestCoverageVerification
-
-//querydsl {
-//    querydslSourcesDir = "$buildDir/generated-sources/apt"
-//    jdo = true
-//}
 
 
